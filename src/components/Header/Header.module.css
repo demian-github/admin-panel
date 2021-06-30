@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  height: 48px;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--black-color);
+}
+
+.popup{
+  height: 100%;
+}
+
+.caption {
+  display: flex;
+  flex-grow: 1;
+}
