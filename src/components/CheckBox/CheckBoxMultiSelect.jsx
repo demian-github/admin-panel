@@ -3,11 +3,14 @@ import classNames from 'classnames/bind'
 import propTypes from 'prop-types'
 import { CheckBox } from 'components/CheckBox/CheckBox'
 import { Icon } from 'components/Icons/Icon'
+import { useDispatch, useSelector } from 'react-redux'
+import { checkBoxMultiSelect } from 'features/data/dataSlice'
 import styles from './CheckBoxMultiSelect.module.css'
 
 export function CheckBoxMultiSelect ({ items, onChange, defaultValue }) {
   const [isOpenPopup, setIsOpenPopup] = useState(false)
-  const [selectedValues, setSelectedValues] = useState([])
+  const dispatch = useDispatch()
+  const selectedValuesLength = useSelector((state) => state.data.selectedValues.length)
 
   function handleClick () {
     setIsOpenPopup(!isOpenPopup)
@@ -19,23 +22,13 @@ export function CheckBoxMultiSelect ({ items, onChange, defaultValue }) {
   })
 
   function handleChangeCheckBox ({ target: { checked, name } }) {
-    console.log(name)
-    if (checked) {
-      setSelectedValues([...selectedValues, name])
-      onChange([...selectedValues, name])
-    } else {
-      const index = selectedValues.findIndex((elem) => elem === name)
-      const selectedValuesNew = [...selectedValues]
-      selectedValuesNew.splice(index, 1)
-      setSelectedValues(selectedValuesNew)
-      onChange(selectedValuesNew)
-    }
+    dispatch(checkBoxMultiSelect({ checked, name }))
   }
 
   return (
-    <div className={dropDownStyles} onClick={handleClick} tabIndex='100'>
+    <div className={dropDownStyles} onClick={handleClick}>
       <div className={styles.text}>
-        <span className={styles.anchor}>{selectedValues.length ? 'Значение выбрано' : defaultValue}</span>
+        <span className={styles.anchor}>{selectedValuesLength ? 'Значение выбрано' : defaultValue}</span>
       </div>
       <div className={styles.button}>
         <Icon icon='Arrow' color='lightBlue' />

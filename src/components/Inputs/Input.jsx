@@ -6,7 +6,6 @@ import propTypes from 'prop-types'
 export function Input ({ valueInput, labeltext, placeholder, disabled, onChange, onReset, onKeyDown, isError, type, name }) {
   const [value, setValue] = useState(valueInput)
   const [isCloseButtonVisisble, setIsCloseButtonVisisble] = useState(false)
-  const [hasError, setHasError] = useState(false)
 
   function handleReset () {
     console.log(event)
@@ -24,7 +23,7 @@ export function Input ({ valueInput, labeltext, placeholder, disabled, onChange,
 
   const styleInputBorder = classNames({
     [styles.inputPanel]: true,
-    [styles.inputPanelError]: hasError,
+    [styles.inputPanelError]: isError,
     [styles.inputPanelDisabled]: disabled
   })
 
@@ -41,10 +40,6 @@ export function Input ({ valueInput, labeltext, placeholder, disabled, onChange,
   useEffect(() => {
     setValue(valueInput)
   }, [valueInput])
-
-  useEffect(() => {
-    setHasError(isError)
-  }, [isError])
 
   return (
     <div className={styleInputBorder}>

@@ -40,8 +40,8 @@ export function ExtendedFilter ({ visible }) {
     setForm({ ...form, [name]: '' })
   }
 
-  function handleChangeStatus (value) {
-    setForm({ ...form, statusFilter: [...value] })
+  function handleChangeStatus () {
+    setForm({ ...form, statusFilter: [] })
   }
 
   return (

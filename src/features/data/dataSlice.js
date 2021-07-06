@@ -90,6 +90,7 @@ export const filterOrders = (params) => {
 export const dataSlice = createSlice({
   name: 'data',
   initialState: {
+    selectedValues: [],
     isIdle: true,
     isLoading: false,
     isSuccess: false,
@@ -140,6 +141,16 @@ export const dataSlice = createSlice({
     ]
   },
   reducers: {
+    checkBoxMultiSelect: (state, action) => {
+      if (action.payload.checked) {
+        state.selectedValues = [...state.selectedValues, action.payload.name]
+      } else {
+        const selectedValuesNew = [...state.selectedValues]
+        const index = selectedValuesNew.findIndex((elem) => elem === action.payload.name)
+        selectedValuesNew.splice(index, 1)
+        state.selectedValues = selectedValuesNew
+      }
+    },
     filterFioOrNumber: (state, action) => {
       state.filterFIOorNumber = action.payload
       state.filtredOrders = filterOrders(state)
@@ -148,7 +159,7 @@ export const dataSlice = createSlice({
     filterExtended: (state, action) => {
       state.dateOrderFrom = action.payload.dateOrderFrom
       state.dateOrderTo = action.payload.dateOrderTo
-      state.statusFilter = action.payload.statusFilter
+      state.statusFilter = state.selectedValues
       state.priceFrom = action.payload.priceFrom
       state.priceTo = action.payload.priceTo
       state.filtredOrders = filterOrders(state)
@@ -228,6 +239,7 @@ export const dataSlice = createSlice({
 })
 
 export const {
+  checkBoxMultiSelect,
   filterFioOrNumber,
   filterExtended,
   setCountPage,
